@@ -24,6 +24,9 @@ public class UserDTO {
         this.statusID = statusID;
     }
 
+    public UserDTO() {
+    }
+
     public String getUserID() {
         return userID;
     }

@@ -133,6 +133,39 @@ public class ProductDAO {
         return product;
     }
 
+    public boolean updateQuantity(String productID, int productQuantity) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.getConnection();
+            if (conn != null) {
+                String sql = "Update tblProduct "
+                        + "set productQuantity=?, statusID=? "
+                        + "where productID = ? ";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, Integer.toString(productQuantity));
+                String status = "A";
+                if (productQuantity == 0) {
+                    status = "NA";
+                }
+                stm.setString(2, status);
+                stm.setString(3, productID);
+                check = stm.executeUpdate() > 0;
+            }
+
+        } catch (Exception e) {
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
     public List<ProductDTO> searchProducts(String searchText) throws SQLException {
         List<ProductDTO> list = new ArrayList<>();
         Connection conn = null;

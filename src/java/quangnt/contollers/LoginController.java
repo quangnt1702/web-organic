@@ -23,7 +23,7 @@ import quangnt.user.UserDTO;
 public class LoginController extends HttpServlet {
     
     private static final String ERROR = "login.html";
-    private static final String SUCCESS_AD = "admin.jsp";
+    private static final String SUCCESS_AD = "admin-product.jsp";
     private static final String SUCCESS_US = "index.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

@@ -22,9 +22,9 @@ public class MainController extends HttpServlet {
     private static final String ERROR = "error.jsp";
     private static final String LOGIN = "LoginController";
     private static final String LOGOUT = "LogoutController";
-    private static final String ADD = "AddController";
-    private static final String DELETE = "DeleteController";
-    private static final String EDIT = "EditController";
+    private static final String ADD_PRODUCT = "AddProductController";
+    private static final String DELETE_PRODUCT = "DeleteProductController";
+    private static final String EDIT_PRODUCT = "EditProductController";
     private static final String SHOW_DETAILS = "ShowDetailsController";
     private static final String SEARCH = "SearchController";
     private static final String ADD_TO_CART = "AddToCartController";
@@ -40,16 +40,16 @@ public class MainController extends HttpServlet {
         String url = ERROR;
         try {
             String action = request.getParameter("action");
-            if ("Sign in".equals(action)) {
+            if ("Sign In".equals(action)) {
                 url = LOGIN;
             } else if ("Logout".equals(action)) {
                 url = LOGOUT;
             } else if ("Add".equals(action)) {
-                url = ADD;
+                url = ADD_PRODUCT;
             } else if ("Delete".equals(action)) {
-                url = DELETE;
+                url = DELETE_PRODUCT;
             } else if ("Save".equals(action)) {
-                url = EDIT;
+                url = EDIT_PRODUCT;
             } else if ("ShopDetails".equals(action)) {
                 url = SHOW_DETAILS;
             } else if ("Search".equals(action)) {

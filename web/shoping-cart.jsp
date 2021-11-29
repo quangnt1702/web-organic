@@ -285,6 +285,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
+                        <%
+                            double totalCart = 0;
+                            if (cart != null && cart.getCart().size() > 0) {
+                        %>
                         <div class="shoping__cart__table">
                             <table>
                                 <thead>
@@ -298,9 +302,7 @@
                                 </thead>
                                 <tbody>
                                     <%
-                                        double totalCart = 0;
-                                        if (cart != null) {
-                                            for (ProductDTO product : cart.getCart().values()) {
+                                        for (ProductDTO product : cart.getCart().values()) {
                                     %>
                                     <tr>
                                         <td class="shoping__cart__item">
@@ -332,13 +334,19 @@
                                         </td>
                                     </tr>
                                     <%
-                                                totalCart += product.getProductPrice() * product.getProductQuantityOrder();
-                                            }
+                                            totalCart += product.getProductPrice() * product.getProductQuantityOrder();
                                         }
                                     %>
                                 </tbody>
                             </table>
                         </div>
+                        <%
+                        } else {
+                        %>
+                        <img src="https://www.apnashopping.in/assets/img/payment/Empty-Cart.jpg">
+                        <%
+                            }
+                        %>
                     </div>
                 </div>
                 <div class="row">
@@ -367,7 +375,17 @@
                                 <li>Subtotal <span>$<%=totalCart%></span></li>
                                 <li>Total <span>$<%=totalCart%></span></li>
                             </ul>
+                            <%
+                                if (cart != null && cart.getCart().size() > 0) {
+                            %>
                             <a href="MainController?action=GoToCheckOut" class="primary-btn">PROCEED TO CHECKOUT</a>
+                            <%
+                            } else {
+                            %>
+                            <a href="MainController?action=GoToCheckOut" class="primary-btn isDisabled" >PROCEED TO CHECKOUT</a>
+                            <%
+                                }
+                            %>
                         </div>
                     </div>
                 </div>

@@ -4,57 +4,56 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-        <!-- Loding font -->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
-
         <!-- Custom Styles -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="./css/style-login.css">
-
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" type="text/css"/>
         <title>Login</title>
     </head>
     <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                    <div class="card border-0 shadow rounded-3 my-5">
+                        <div class="card-body p-4 p-sm-5">
+                            <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
+                            <form action="MainController" method="Post">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="User ID" name="userID">
+                                    <label for="floatingInput">User ID</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+                                    <label for="floatingPassword">Password</label>
+                                </div>
 
-        <!-- Backgrounds -->
-
-        <div id="login-bg" class="container-fluid">
-
-            <div class="bg-img"></div>
-            <div class="bg-color"></div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
+                                    <label class="form-check-label" for="rememberPasswordCheck">
+                                        Remember password
+                                    </label>
+                                </div>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="action" value="Sign In">Sign in</button>
+                                </div>
+                                <hr class="my-4">
+                                <div class="d-grid mb-2">
+                                    <a class="btn btn-google btn-login text-uppercase fw-bold" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/WebOrganic/login-google&response_type=code
+                                       &client_id=665976455028-eptjnmsvk9jh643tiunfvfpoibebfnfe.apps.googleusercontent.com&approval_prompt=force">
+                                        <i class="fab fa-google me-2"></i> Sign in with Google
+                                    </a>
+                                </div>
+                                <div class="d-grid">
+                                    <button class="btn btn-facebook btn-login text-uppercase fw-bold" type="submit">
+                                        <i class="fab fa-facebook-f me-2"></i> Sign in with Facebook
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- End Backgrounds -->
-
-        <div class="container" id="login">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="login">
-                        <h1>Login</h1>
-                        <!-- Loging form -->
-                        <form action="MainController" method="POST">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter ID" name="userID">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
-                            </div>
-                            <div class="form-check">
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider round"></span>
-                                </label>
-                                <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                                <label class="forgot-password"><a href="#">Forgot Password?<a></label>
-                                            </div>
-                                            <br>
-                                            <input type="submit" name="action" class="btn btn-lg btn-block btn-success" value="Sign in">
-                                            </form>
-                                            </div>
-                                            </div>
-                                            </div>
-                                            </div>
-                                            </body>
-                                            </html>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    </body>
+</html>

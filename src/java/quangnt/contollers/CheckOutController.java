@@ -27,6 +27,8 @@ public class CheckOutController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpServletResponse res = (HttpServletResponse) response;
+        res.setHeader("Cache-Control", "private,no-store,no-cache");
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {

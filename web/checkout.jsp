@@ -3,7 +3,7 @@
     Created on : Nov 27, 2021, 9:10:30 PM
     Author     : ACER
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="quangnt.product.ProductDTO"%>
 <%@page import="quangnt.shopping.Cart"%>
 <%@page import="quangnt.user.UserDTO"%>
@@ -31,6 +31,10 @@
         <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
+        <!-- Magnific Popup CSS -->
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" href="https://unpkg.com/polipop/dist/css/polipop.core.min.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/polipop/dist/css/polipop.default.min.css"/>
     </head>
 
     <body>
@@ -399,21 +403,40 @@
                                     </div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
                                         ut labore et dolore magna aliqua.</p>-->
+                                    <div class="checkout__order__products">Payment Method</div>
                                     <div class="checkout__input__checkbox">
                                         <label for="payment">
-                                            Check Payment
-                                            <input type="checkbox" id="payment" name="payment">
+                                            Cash On Delivery
+                                            <input type="checkbox" id="payment" name="methodPayment" value="payment">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
                                     <div class="checkout__input__checkbox">
                                         <label for="paypal">
-                                            Paypal
-                                            <input type="checkbox" id="paypal" name="paypal">
+                                            VN PAY
+                                            <input type="checkbox" id="paypal" name="methodPayment" value="vnpay">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
+                                    <%
+                                        if (userLogin != null) {
+                                    %>
+                                    <input type="hidden" name="userID" value="<%=userLogin.getUserID()%>">
+                                    <%
+                                        }
+                                    %>
+                                    <input type="hidden" name="totalCart" value="<%=totalCart%>">
+                                    <%
+                                        if (cart != null && cart.getCart().size() > 0) {
+                                    %>
                                     <button type="submit" name="action" value="Place Order" class="site-btn">PLACE ORDER</button>
+                                    <%
+                                    } else {
+                                    %>
+                                    <button type="submit" name="action" value="Place Order" class="site-btn isDisabled">PLACE ORDER</button>
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
                         </div>
@@ -500,6 +523,27 @@
         <script src="js/mixitup.min.js"></script>
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/main.js"></script>
+        <!-- magnific-popup min js  --> 
+        <script src="assets/js/magnific-popup.min.js"></script> 
+        <script src="https://unpkg.com/polipop/dist/polipop.min.js"></script>
+        <script>
+                                        var polipop = new Polipop('mypolipop', {
+                                            layout: 'popups',
+                                            insert: 'before',
+                                            pool: 5,
+                                            sticky: false,
+                                            position: 'bottom-right',
+                                            life: 4000
+                                        });
 
+            <c:if test="${sessionScope.ERROR_CHECKOUT != null}">
+                                        polipop.add({
+                                            content: "${sessionScope.ERROR_CHECKOUT}",
+                                            title: 'Check Out Error',
+                                            type: 'error',
+                                        });
+            </c:if>
+            <c:remove var="ERROR_CHECKOUT" scope="session" />
+        </script>
     </body>
 </html>
