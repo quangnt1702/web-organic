@@ -3,64 +3,42 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package quangnt.google;
+package quangnt.contollers;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import quangnt.user.UserDAO;
-import quangnt.user.UserDTO;
 
 /**
  *
  * @author ACER
  */
-@WebServlet(name = "LoginGoogleServlet", urlPatterns = {"/login-google"})
-public class LoginGoogleServlet extends HttpServlet {
+@WebServlet(name = "UnbanUserController", urlPatterns = {"/UnbanUserController"})
+public class UnbanUserController extends HttpServlet {
 
-    public static final String ERROR = "login.html";
-    public static final String SUCCESS = "index.jsp";
+    private static final String ERROR = "error.jsp";
+    private static final String SUCCESS = "admin-user.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String code = request.getParameter("code");
-            if (code == null && code.isEmpty()) {
-                RequestDispatcher dis = request.getRequestDispatcher("login.html");
-                dis.forward(request, response);
-            } else {
-                String accessToken = GoogleUtils.getToken(code);
-                GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-                HttpSession session = request.getSession();
-                UserDTO userLogin = new UserDTO();
-                userLogin.setUserID(googlePojo.getId());
-                userLogin.setUserName(googlePojo.getEmail());
-                userLogin.setRoleID("US");
-                userLogin.setStatusID("A");
-                userLogin.setPassword("1");
-                session.setAttribute("USER_LOGIN", userLogin);
-                UserDAO dao = new UserDAO();
-                if (dao.checkDuplicate(userLogin) == false) {
-                    dao.insertUserGG(userLogin);
-                    url = SUCCESS;
-                } else {
-                    if (dao.checkLogin(userLogin.getUserID(), "1") != null) {
-                        url = SUCCESS;
-                    }
-                }
+            String userID = request.getParameter("userID");
+            UserDAO dao = new UserDAO();
+            boolean check = dao.unbanUser(userID);
+            if (check) {
+                url = SUCCESS;
             }
         } catch (Exception e) {
+            log("Error at UnbanUserController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

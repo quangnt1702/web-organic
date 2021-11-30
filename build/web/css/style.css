@@ -1662,6 +1662,28 @@ ol {
 .blog__pagination a:last-child {
     margin-right: 0;
 }
+/*Test*/
+.product-paging {
+    padding-top: 10px;
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #7fad39;
+    border-color: #7fad39;
+}
+
+.product-paging a:hover{
+    background: #7fad39;
+    border-color: #7fad39;
+    color: #ffffff;
+}
+.product-paging a{
+        color: black;
+}
+.product-paging a:last-child{
+    margin-right: 0;
+}
 
 /*---------------------
   Shop Details

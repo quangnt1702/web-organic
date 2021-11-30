@@ -13,7 +13,7 @@ import quangnt.utils.DBUtil;
  * @author ACER
  */
 public class ProductDAO {
-
+    
     public List<ProductDTO> getAllProduct() throws SQLException {
         List<ProductDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -31,7 +31,7 @@ public class ProductDAO {
                     double productPrice = Double.parseDouble(rs.getString("productPrice"));
                     int productQuantity = Integer.parseInt(rs.getString("productQuantity"));
                     String image = rs.getString("image");
-                    String category = getCategeoryName(rs.getString("categoryID"));
+                    String category = getCategeoryName(rs.getInt("categoryID"));
                     String status = getStatusName(rs.getString("statusID"));
                     String description = rs.getString("description");
                     String createDate = rs.getString("createDate");
@@ -52,7 +52,7 @@ public class ProductDAO {
         }
         return list;
     }
-
+    
     public List<ProductDTO> getAllActiveProduct() throws SQLException {
         List<ProductDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -70,7 +70,7 @@ public class ProductDAO {
                     double productPrice = Double.parseDouble(rs.getString("productPrice"));
                     int productQuantity = Integer.parseInt(rs.getString("productQuantity"));
                     String image = rs.getString("image");
-                    String category = getCategeoryName(rs.getString("categoryID"));
+                    String category = getCategeoryName(rs.getInt("categoryID"));
                     String status = getStatusName(rs.getString("statusID"));
                     String description = rs.getString("description");
                     String createDate = rs.getString("createDate");
@@ -93,7 +93,7 @@ public class ProductDAO {
         }
         return list;
     }
-
+    
     public ProductDTO getProductByProductID(String productID) throws SQLException {
         ProductDTO product = null;
         Connection conn = null;
@@ -111,7 +111,7 @@ public class ProductDAO {
                     double productPrice = Double.parseDouble(rs.getString("productPrice"));
                     int productQuantity = Integer.parseInt(rs.getString("productQuantity"));
                     String image = rs.getString("image");
-                    String category = getCategeoryName(rs.getString("categoryID"));
+                    String category = getCategeoryName(rs.getInt("categoryID"));
                     String status = getStatusName(rs.getString("statusID"));
                     String description = rs.getString("description");
                     String createDate = rs.getString("createDate");
@@ -132,7 +132,7 @@ public class ProductDAO {
         }
         return product;
     }
-
+    
     public boolean updateQuantity(String productID, int productQuantity) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -153,7 +153,7 @@ public class ProductDAO {
                 stm.setString(3, productID);
                 check = stm.executeUpdate() > 0;
             }
-
+            
         } catch (Exception e) {
         } finally {
             if (stm != null) {
@@ -165,7 +165,35 @@ public class ProductDAO {
         }
         return check;
     }
-
+    
+    public boolean updateCategory(int categoryID, String categoryName) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.getConnection();
+            if (conn != null) {
+                String sql = "Update tblCategory "
+                        + "set categoryName=? "
+                        + "where categoryID=? ";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, categoryName);
+                stm.setInt(2, categoryID);
+                check = stm.executeUpdate() > 0;
+            }
+            
+        } catch (Exception e) {
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
     public List<ProductDTO> searchProducts(String searchText) throws SQLException {
         List<ProductDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -184,7 +212,7 @@ public class ProductDAO {
                     double productPrice = Double.parseDouble(rs.getString("productPrice"));
                     int productQuantity = Integer.parseInt(rs.getString("productQuantity"));
                     String image = rs.getString("image");
-                    String category = getCategeoryName(rs.getString("categoryID"));
+                    String category = getCategeoryName(rs.getInt("categoryID"));
                     String status = getStatusName(rs.getString("statusID"));
                     String description = rs.getString("description");
                     String createDate = rs.getString("createDate");
@@ -205,7 +233,7 @@ public class ProductDAO {
         }
         return list;
     }
-
+    
     public boolean addProduct(ProductDTO product) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -221,7 +249,7 @@ public class ProductDAO {
                 stm.setDouble(3, product.getProductPrice());
                 stm.setInt(4, product.getProductQuantity());
                 stm.setString(5, product.getImage());
-                stm.setString(6, getCategeoryID(product.getCategory()));
+                stm.setInt(6, getCategeoryID(product.getCategory()));
                 stm.setString(7, getStatusID(product.getStatus()));
                 stm.setString(8, product.getDescription());
                 stm.setString(9, product.getCreateDate());
@@ -238,7 +266,32 @@ public class ProductDAO {
         }
         return check;
     }
-
+    
+    public boolean addCategory(String categoryName) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.getConnection();
+            if (conn != null) {
+                String sql = "Insert into tblCategory(categoryName) "
+                        + " values(?)";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, categoryName);
+                check = stm.executeUpdate() > 0;
+            }
+        } catch (Exception e) {
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
     public boolean disableProduct(String productID) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -262,7 +315,7 @@ public class ProductDAO {
         }
         return check;
     }
-
+    
     public boolean updateProduct(ProductDTO product) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -277,7 +330,7 @@ public class ProductDAO {
                 stm.setString(1, product.getProductName());
                 stm.setDouble(2, product.getProductPrice());
                 stm.setInt(3, product.getProductQuantity());
-                stm.setString(4, getCategeoryID(product.getCategory()));
+                stm.setInt(4, getCategeoryID(product.getCategory()));
                 stm.setString(5, product.getDescription());
                 stm.setString(6, getStatusID(product.getStatus()));
                 stm.setString(7, product.getImage());
@@ -296,21 +349,22 @@ public class ProductDAO {
         }
         return check;
     }
-
-    public List<Category> getCategorys() throws SQLException {
-        List<Category> list = new ArrayList<>();
+    
+    public List<CategoryDTO> getCategories() throws SQLException {
+        List<CategoryDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
             conn = DBUtil.getConnection();
             if (conn != null) {
-                String sql = "select categoryName from tblCategory ";
+                String sql = "select * from tblCategory ";
                 stm = conn.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
+                    int categoryID = rs.getInt("categoryID");
                     String categoryName = rs.getString("categoryName");
-                    list.add(new Category(categoryName));
+                    list.add(new CategoryDTO(categoryID, categoryName));
                 }
             }
         } catch (Exception e) {
@@ -327,8 +381,8 @@ public class ProductDAO {
         }
         return list;
     }
-
-    public String getCategeoryName(String id) throws SQLException {
+    
+    public String getCategeoryName(int id) throws SQLException {
         String name = null;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -338,7 +392,7 @@ public class ProductDAO {
             if (conn != null) {
                 String sql = "select categoryName from tblCategory where categoryID = ? ";
                 stm = conn.prepareStatement(sql);
-                stm.setString(1, id);
+                stm.setInt(1, id);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     name = rs.getString("categoryName");
@@ -358,9 +412,9 @@ public class ProductDAO {
         }
         return name;
     }
-
-    public String getCategeoryID(String name) throws SQLException {
-        String id = null;
+    
+    public int getCategeoryID(String name) throws SQLException {
+        int id = 0;
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -372,7 +426,7 @@ public class ProductDAO {
                 stm.setString(1, name);
                 rs = stm.executeQuery();
                 if (rs.next()) {
-                    id = rs.getString("categoryID");
+                    id = rs.getInt("categoryID");
                 }
             }
         } catch (Exception e) {
@@ -389,7 +443,7 @@ public class ProductDAO {
         }
         return id;
     }
-
+    
     public String getStatusName(String id) throws SQLException {
         String name = null;
         Connection conn = null;
@@ -420,7 +474,7 @@ public class ProductDAO {
         }
         return name;
     }
-
+    
     public String getStatusID(String name) throws SQLException {
         String id = null;
         Connection conn = null;

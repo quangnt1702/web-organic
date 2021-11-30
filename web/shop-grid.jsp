@@ -598,11 +598,13 @@
                         </div>
                         <div class="row">
                             <%
+                                int count = 0;
                                 if (list != null) {
                                     if (!list.isEmpty()) {
                                         for (ProductDTO product : list) {
+                                            count++;
                             %>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="col-lg-4 col-md-6 col-sm-6 contentPage">
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg" data-setbg="<%=product.getImage()%>">
                                         <ul class="product__item__pic__hover">
@@ -623,11 +625,11 @@
                                 }
                             %>
                         </div>
-                        <div class="product__pagination">
-                            <a href="#">1</a>
+                        <div class="product-paging pagination">
+<!--                            <a href="#">1</a>
                             <a href="#">2</a>
                             <a href="#">3</a>
-                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>-->
                         </div>
                     </div>
                 </div>
@@ -712,9 +714,36 @@
         <script src="js/mixitup.min.js"></script>
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/main.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
+        <!-- JS tạo nút bấm di chuyển trang start -->
+        <script src="http://1892.yn.lt/blogger/JQuery/Pagging/js/jquery.twbsPagination.js" type="text/javascript"></script>
+        <!-- JS tạo nút bấm di chuyển trang end -->
+        <script type="text/javascript">
+                                        $(function () {
+                                            var pageSize = 9; // Hiển thị 5 sản phẩm trên 1 trang
+                                            showPage = function (page) {
+                                                $(".contentPage").hide();
+                                                $(".contentPage").each(function (n) {
+                                                    if (n >= pageSize * (page - 1) && n < pageSize * page)
+                                                        $(this).show();
+                                                });
+                                            }
+                                            showPage(1);
+                                            ///** Cần truyền giá trị vào đây **///
+                                            var totalRows = <%=count%>; // Tổng số sản phẩm hiển thị
+                                            var btnPage = 4; // Số nút bấm hiển thị di chuyển trang
+                                            var iTotalPages = Math.ceil(totalRows / pageSize);
 
-
-
+                                            var obj = $('.pagination').twbsPagination({
+                                                totalPages: iTotalPages,
+                                                visiblePages: btnPage,
+                                                onPageClick: function (event, page) {
+                                                    console.info(page);
+                                                    showPage(page);
+                                                }
+                                            });
+                                            console.info(obj.data());
+                                        });
+        </script>
     </body>
-
 </html>

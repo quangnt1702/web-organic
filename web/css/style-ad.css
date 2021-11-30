@@ -89,8 +89,17 @@ table.table td a:hover {
 table.table td a.edit {
     color: #FFC107;
 }
+table.table td a.edit-category {
+    color: #FFC107;
+}
 table.table td a.delete {
     color: #F44336;
+}
+table.table td a.detail {
+    color: green;
+}
+table.table td a.unban {
+    color: green;
 }
 table.table td i {
     font-size: 19px;

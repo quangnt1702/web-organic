@@ -4,7 +4,7 @@
     Author     : ACER
 --%>
 
-<%@page import="quangnt.product.Category"%>
+<%@page import="quangnt.product.CategoryDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="quangnt.product.ProductDTO"%>
 <%@page import="quangnt.product.ProductDAO"%>
@@ -25,7 +25,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="./css/style-ad.css">
         <script src="https://dl.dropboxusercontent.com/s/nvklmhq3kw4j9pq/jquerylasted.js?dl=0"></script>
-
     </head>
     <body>
         <div class="container-fluid">
@@ -67,7 +66,7 @@
                                             count++;
 
                             %>
-                            <tr>
+                            <tr class="contentPage">
                                 <td><%=count%></td>
                                 <td><%=product.getProductName()%></td>
                                 <td>$<%=product.getProductPrice()%></td>
@@ -98,7 +97,7 @@
                                        data-category="<%=product.getCategory()%>"
                                        data-description="<%=product.getDescription()%>"
                                        data-status="<%=product.getStatus()%>"
-                                       data-date="<%=product.getCreateDate()%>"
+                                       data-date="<%=product.getCreateDate().substring(0, 19)%>"
                                        data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                     <a href="MainController?action=Delete&productID=<%=product.getProductID()%>" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
@@ -111,18 +110,11 @@
 
                         </tbody>
                     </table>
-                    <!--                    <div class="clearfix">
-                                            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                                            <ul class="pagination">
-                                                <li class="page-item disabled"><a href="#">Previous</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                                            </ul>
-                                        </div>-->
+                    <div class="clearfix">
+                        <div class="hint-text">Showing <b>6</b> out of <b><%=count%></b> entries</div>
+                        <ul class="pagination">
+                        </ul>
+                    </div>
                 </div>
             </div>        
         </div>
@@ -151,7 +143,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Product Image</label>
-                                    <input name="add" type="file" accept="image/*">
+                                    <input style="margin-bottom: 10px;" name="add" type="file" accept="image/*">
                                     <input id="link" type="text" class="form-control" name="image">
                                 </div>
                             </div>
@@ -164,10 +156,10 @@
                                     <label>Category</label>
                                     <select name="category" class="form-control" >                                 
                                         <%
-                                            List<Category> listCate = dao.getCategorys();
+                                            List<CategoryDTO> listCate = dao.getCategories();
                                             if (listCate != null) {
                                                 if (!listCate.isEmpty()) {
-                                                    for (Category category : listCate) {
+                                                    for (CategoryDTO category : listCate) {
 
                                         %>
                                         <option value="<%=category.getCategoryName()%>"><%=category.getCategoryName()%></option>
@@ -233,7 +225,7 @@
                                         <%
                                             if (listCate != null) {
                                                 if (!listCate.isEmpty()) {
-                                                    for (Category category : listCate) {
+                                                    for (CategoryDTO category : listCate) {
 
                                         %>
                                         <option value="<%=category.getCategoryName()%>"><%=category.getCategoryName()%></option>
@@ -365,5 +357,36 @@
             });
         </script>
         <script src="./js/app-ad.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
+        <!-- JS tạo nút bấm di chuyển trang start -->
+        <script src="http://1892.yn.lt/blogger/JQuery/Pagging/js/jquery.twbsPagination.js" type="text/javascript"></script>
+        <!-- JS tạo nút bấm di chuyển trang end -->
+        <script type="text/javascript">
+            $(function () {
+                var pageSize = 6; // Hiển thị 5 sản phẩm trên 1 trang
+                showPage = function (page) {
+                    $(".contentPage").hide();
+                    $(".contentPage").each(function (n) {
+                        if (n >= pageSize * (page - 1) && n < pageSize * page)
+                            $(this).show();
+                    });
+                }
+                showPage(1);
+                ///** Cần truyền giá trị vào đây **///
+                var totalRows = <%=count%>; // Tổng số sản phẩm hiển thị
+                var btnPage = 4; // Số nút bấm hiển thị di chuyển trang
+                var iTotalPages = Math.ceil(totalRows / pageSize);
+
+                var obj = $('.pagination').twbsPagination({
+                    totalPages: iTotalPages,
+                    visiblePages: btnPage,
+                    onPageClick: function (event, page) {
+                        console.info(page);
+                        showPage(page);
+                    }
+                });
+                console.info(obj.data());
+            });
+        </script>
     </body>
 </html>

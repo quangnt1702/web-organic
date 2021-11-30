@@ -13,6 +13,7 @@ public class UserDTO {
     private String phoneNumber;
     private String roleID;
     private String statusID;
+    private String banReason;
 
     public UserDTO(String userID, String password, String userName, String address, String phoneNumber, String roleID, String statusID) {
         this.userID = userID;
@@ -22,6 +23,25 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
         this.roleID = roleID;
         this.statusID = statusID;
+    }
+
+    public UserDTO(String userID, String password, String userName, String address, String phoneNumber, String roleID, String statusID, String banReason) {
+        this.userID = userID;
+        this.password = password;
+        this.userName = userName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.roleID = roleID;
+        this.statusID = statusID;
+        this.banReason = banReason;
+    }
+
+    public String getBanReason() {
+        return banReason;
+    }
+
+    public void setBanReason(String banReason) {
+        this.banReason = banReason;
     }
 
     public UserDTO() {

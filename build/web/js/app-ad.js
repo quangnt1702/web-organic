@@ -37,7 +37,7 @@ $(document).on("click", ".edit", function () {
     $(".modal-body #name").val(name);
     $(".modal-body #price").val(price);
     $(".modal-body #image").val(image);
-    $(".modal-body #image-product").attr("src",image);
+    $(".modal-body #image-product").attr("src", image);
     $(".modal-body #quantity").val(quantity);
     $(".modal-body #category").val(category);
     $(".modal-body #category").html(category);
@@ -45,4 +45,19 @@ $(document).on("click", ".edit", function () {
     $(".modal-body #status").val(status);
     $(".modal-body #status").html(status);
     $(".modal-body #date").val(date);
+});
+
+$(document).on("click", ".delete", function () {
+    var id = $(this).data('id');
+
+    $(".modal-footer #userID").val(id);
+});
+
+$(document).on("click", ".edit-category", function () {
+    var name = $(this).data('name');
+    var id = $(this).data('id');
+
+    $(".modal-body #name").val(name);
+    $(".modal-body #id").val(id);
+
 });

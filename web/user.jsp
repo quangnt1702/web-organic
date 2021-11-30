@@ -67,7 +67,7 @@
                                                 user.setPhoneNumber("N/A");
                                             }
                             %>
-                            <tr>
+                            <tr class="contentPage">
                                 <td><%=count%></td>
                                 <td><%=user.getUserID()%></td>
                                 <td><%=user.getUserName()%></td>
@@ -96,11 +96,12 @@
                                        data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>-->
                                     <%if (user.getStatusID().equals("A")) {
                                     %>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Ban">&#xe612;</i></a>
+                                    <a href="#deleteEmployeeModal" class="delete" data-id="<%= user.getUserID()%>" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Ban">&#xe612;</i></a>
                                     <%
                                     } else {
                                     %>
-                                    <a href="MainController?action=Unban&userID=<%=user.getUserID()%>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Unban">&#xe5d5;</i></a>
+                                    <a href="MainController?action=Unban&userID=<%=user.getUserID()%>" class="unban"><i class="material-icons" data-toggle="tooltip" title="Unban">&#xe5d5;</i></a>
+                                    <i class="material-icons" data-toggle="tooltip" style="cursor: pointer;" title="<%=user.getBanReason()%>">&#xe88e;</i>
                                     <%
                                         }
                                     %>
@@ -114,18 +115,11 @@
 
                         </tbody>
                     </table>
-                    <!--                    <div class="clearfix">
-                                            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                                            <ul class="pagination">
-                                                <li class="page-item disabled"><a href="#">Previous</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                                                <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                                            </ul>
-                                        </div>-->
+                    <div class="clearfix">
+                        <div class="hint-text">Showing <b>8</b> out of <b><%=count%></b> entries</div>
+                        <ul class="pagination">
+                        </ul>
+                    </div>
                 </div>
             </div>        
         </div>
@@ -141,17 +135,49 @@
                         <div class="modal-body">					
                             <div class="form-group" style="width: 100%;">
                                 <label for="message-text" class="col-form-label">Reason ban:</label>
-                                <textarea class="form-control" id="message-text"></textarea>
+                                <textarea class="form-control" id="message-text" name="banReason"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-danger" name="action" value="Delete">
+                            <input type="submit" class="btn btn-danger" name="action" value="Delete User">
+                            <input type="hidden" id="userID" name="userID" value="">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
         <script src="./js/app-ad.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
+        <!-- JS tạo nút bấm di chuyển trang start -->
+        <script src="http://1892.yn.lt/blogger/JQuery/Pagging/js/jquery.twbsPagination.js" type="text/javascript"></script>
+        <!-- JS tạo nút bấm di chuyển trang end -->
+        <script type="text/javascript">
+            $(function () {
+                var pageSize = 8; // Hiển thị 5 sản phẩm trên 1 trang
+                showPage = function (page) {
+                    $(".contentPage").hide();
+                    $(".contentPage").each(function (n) {
+                        if (n >= pageSize * (page - 1) && n < pageSize * page)
+                            $(this).show();
+                    });
+                }
+                showPage(1);
+                ///** Cần truyền giá trị vào đây **///
+                var totalRows = <%=count%>; // Tổng số sản phẩm hiển thị
+                var btnPage = 4; // Số nút bấm hiển thị di chuyển trang
+                var iTotalPages = Math.ceil(totalRows / pageSize);
+
+                var obj = $('.pagination').twbsPagination({
+                    totalPages: iTotalPages,
+                    visiblePages: btnPage,
+                    onPageClick: function (event, page) {
+                        console.info(page);
+                        showPage(page);
+                    }
+                });
+                console.info(obj.data());
+            });
+        </script>
     </body>
 </html>

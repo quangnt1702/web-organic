@@ -18,8 +18,9 @@ public class UserDAO {
 //        ArrayList<UserDTO> list= (ArrayList<UserDTO>) dao.getAllUsers();
 //        System.out.println(list);
 //    }
+
     public List<UserDTO> getAllUsers() throws SQLException {
-         List<UserDTO> list = new ArrayList<>();
+        List<UserDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -36,7 +37,8 @@ public class UserDAO {
                     String statusID = rs.getString("statusID");
                     String address = rs.getString("address");
                     String phoneNumber = rs.getString("phoneNumber");
-                    list.add(new UserDTO(userID, "******", userName, address, phoneNumber, roleID, statusID));
+                    String banReason = rs.getString("banReason");
+                    list.add(new UserDTO(userID, "******", userName, address, phoneNumber, roleID, statusID, banReason));
                 }
             }
         } catch (Exception e) {
@@ -71,7 +73,9 @@ public class UserDAO {
                     String userName = rs.getString("userName");
                     String roleID = rs.getString("roleID");
                     String statusID = rs.getString("statusID");
-                    user = new UserDTO(userID, "******", userName, "", "", roleID, statusID);
+                    if (statusID.equals("A")) {
+                        user = new UserDTO(userID, "******", userName, "", "", roleID, statusID);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -87,6 +91,59 @@ public class UserDAO {
             }
         }
         return user;
+    }
+
+    public boolean deleteUser(String userID, String banReason) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.getConnection();
+            if (conn != null) {
+                String sql = "Update tblUsers Set statusID='NA', banReason=? where userID=?";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, banReason);
+                stm.setString(2, userID);
+                check = stm.executeUpdate() > 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean unbanUser(String userID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.getConnection();
+            if (conn != null) {
+                String sql = "Update tblUsers Set statusID='A', banReason='' where userID=?";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, userID);
+                check = stm.executeUpdate() > 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 
     public boolean insertUserGG(UserDTO userGG) throws SQLException {

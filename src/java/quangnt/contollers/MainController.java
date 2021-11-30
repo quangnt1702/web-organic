@@ -33,6 +33,10 @@ public class MainController extends HttpServlet {
     private static final String DELETE_CART = "DeleteCartController";
     private static final String CHECK_OUT = "CheckOutController";
     private static final String PLACE_ORDER = "PlaceOrderController";
+    private static final String DELETE_USER = "DeleteUserController";
+    private static final String UNBAN_USER = "UnbanUserController";
+    private static final String EDIT_CATEGORY = "EditCategoryController";
+    private static final String ADD_CATEGORY = "AddCategoryController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,6 +70,14 @@ public class MainController extends HttpServlet {
                 url = CHECK_OUT;
             } else if ("Place Order".equals(action)) {
                 url = PLACE_ORDER;
+            } else if ("Delete User".equals(action)) {
+                url = DELETE_USER;
+            } else if ("Unban".equals(action)) {
+                url = UNBAN_USER;
+            } else if ("Save Category".equals(action)) {
+                url = EDIT_CATEGORY;
+            }else if ("Add Category".equals(action)) {
+                url = ADD_CATEGORY;
             } else {
                 request.setAttribute("ERROR", "Function is not available!");
             }
