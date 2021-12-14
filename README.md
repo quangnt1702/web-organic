@@ -30,4 +30,4 @@ Organic store is a ecommerce website that allows customers to orders organic pro
 ### Shop Cart Page
 ![Cart Page](database/shop-cart.png)
 ### Management Page
-!Management Page](database/admin.png)
+![Management Page](database/admin.png)
