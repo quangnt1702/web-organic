@@ -31,3 +31,5 @@ Organic store is a ecommerce website that allows customers to orders organic pro
 ![Cart Page](database/shop-cart.png)
 ### Management Page
 ![Management Page](database/admin.png)
+
+### QuangNT © 2021
