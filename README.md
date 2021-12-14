@@ -6,11 +6,11 @@ Organic store is a ecommerce website that allows customers to orders organic pro
 
 ## Roles
 
-- ### Customer
+ ### Customer
 	- Search, show product details
 	- Add product to cart
 	- Pay the order
-- ### Administrator
+ ### Administrator
 	- Manage customer accounts
 	- Manage products
 	- Manage categories
