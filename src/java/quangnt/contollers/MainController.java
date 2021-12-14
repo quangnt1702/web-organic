@@ -37,6 +37,11 @@ public class MainController extends HttpServlet {
     private static final String UNBAN_USER = "UnbanUserController";
     private static final String EDIT_CATEGORY = "EditCategoryController";
     private static final String ADD_CATEGORY = "AddCategoryController";
+    private static final String GET_ALL_PRODUCT = "AdminShowListProductController";
+    private static final String GET_ALL_USER = "AdminShowListUserController";
+    private static final String GET_ALL_CATEGORY = "AdminShowListCategoryController";
+    private static final String GET_ALL_ORDER = "AdminShowListOrderController";
+    private static final String GET_ALL_ACTIVE_PRODUCT = "UserShowListProductController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -76,8 +81,18 @@ public class MainController extends HttpServlet {
                 url = UNBAN_USER;
             } else if ("Save Category".equals(action)) {
                 url = EDIT_CATEGORY;
-            }else if ("Add Category".equals(action)) {
+            } else if ("Add Category".equals(action)) {
                 url = ADD_CATEGORY;
+            } else if ("GetAllProduct".equals(action)) {
+                url = GET_ALL_PRODUCT;
+            } else if ("GetAllUser".equals(action)) {
+                url = GET_ALL_USER;
+            } else if ("GetAllCategory".equals(action)) {
+                url = GET_ALL_CATEGORY;
+            } else if ("GetAllOrder".equals(action)) {
+                url = GET_ALL_ORDER;
+            } else if ("GetAllActiveProduct".equals(action)) {
+                url = GET_ALL_ACTIVE_PRODUCT;
             } else {
                 request.setAttribute("ERROR", "Function is not available!");
             }

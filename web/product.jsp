@@ -3,11 +3,9 @@
     Created on : Sep 3, 2021, 1:52:41 PM
     Author     : ACER
 --%>
-
 <%@page import="quangnt.product.CategoryDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="quangnt.product.ProductDTO"%>
-<%@page import="quangnt.product.ProductDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,9 +54,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
+
                             <%
-                                ProductDAO dao = new ProductDAO();
-                                List<ProductDTO> list = dao.getAllProduct();
+                                List<ProductDTO> list = (List<ProductDTO>) request.getAttribute("LIST_PRODUCT");
                                 int count = 0;
                                 if (list != null) {
                                     if (!list.isEmpty()) {
@@ -156,7 +155,7 @@
                                     <label>Category</label>
                                     <select name="category" class="form-control" >                                 
                                         <%
-                                            List<CategoryDTO> listCate = dao.getCategories();
+                                            List<CategoryDTO> listCate = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
                                             if (listCate != null) {
                                                 if (!listCate.isEmpty()) {
                                                     for (CategoryDTO category : listCate) {

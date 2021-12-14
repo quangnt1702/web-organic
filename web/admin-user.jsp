@@ -3,7 +3,7 @@
     Created on : Nov 29, 2021, 1:11:33 PM
     Author     : ACER
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -246,6 +246,9 @@
         <!--Container Main start-->
         <div class="height-100 bg-light">
             <h4>Main Components</h4>
+            <c:if test="${requestScope.LIST_USER == null}">
+                <c:redirect url="MainController?action=GetAllUser"/>
+            </c:if>
             <jsp:include page="user.jsp" />  
         </div>
         <!--Container Main end-->

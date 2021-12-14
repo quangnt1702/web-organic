@@ -6,8 +6,6 @@
 
 <%@page import="quangnt.product.CategoryDTO"%>
 <%@page import="java.util.List"%>
-<%@page import="quangnt.product.ProductDTO"%>
-<%@page import="quangnt.product.ProductDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,8 +48,7 @@
                         </thead>
                         <tbody>
                             <%
-                                ProductDAO dao = new ProductDAO();
-                                List<CategoryDTO> list = dao.getCategories();
+                                List<CategoryDTO> list = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
                                 int count = 0;
                                 if (list != null) {
                                     if (!list.isEmpty()) {
@@ -137,7 +134,7 @@
             </div>
         </div>
         <script src="./js/app-ad.js"></script>
-         <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
         <!-- JS tạo nút bấm di chuyển trang start -->
         <script src="http://1892.yn.lt/blogger/JQuery/Pagging/js/jquery.twbsPagination.js" type="text/javascript"></script>
         <!-- JS tạo nút bấm di chuyển trang end -->

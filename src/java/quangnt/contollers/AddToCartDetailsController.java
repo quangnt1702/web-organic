@@ -24,8 +24,8 @@ import quangnt.shopping.Cart;
 @WebServlet(name = "AddToCartDetailsController", urlPatterns = {"/AddToCartDetailsController"})
 public class AddToCartDetailsController extends HttpServlet {
 
-    private static final String ERROR = "error.jsp";
-    private static final String SUCCESS = "shop-grid.jsp";
+    private static final String ERROR = "ShowDetailsController";
+    private static final String SUCCESS = "ShowDetailsController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,29 +40,41 @@ public class AddToCartDetailsController extends HttpServlet {
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("CART");
             if (cart == null) {
-                cart = new Cart();
-                cart.add(product);
-                session.setAttribute("CART", cart);
-                url = SUCCESS;
-            } else {
-                boolean flag = true;
-                for (ProductDTO productDTO : cart.getCart().values()) {
-                    if (productDTO.equals(productID)) {
-                        product = productDTO;
-                        product.setProductQuantityOrder(productQuantityOrder + productDTO.getProductQuantityOrder());
-                        cart.update(product);
-                        session.setAttribute("CART", cart);
-                        url = SUCCESS;
-                        flag = false;
-                    }
-                }
-                if (flag) {
+                if (product.getProductQuantityOrder() > product.getProductQuantity()) {
+                    request.setAttribute("ERROR_DETAIL", "Product in stock is not enough. Max is: " + product.getProductQuantity());
+                } else {
+                    cart = new Cart();
                     cart.add(product);
                     session.setAttribute("CART", cart);
                     url = SUCCESS;
                 }
+            } else {
+                boolean flag = true;
+                for (ProductDTO productDTO : cart.getCart().values()) {
+                    if (productDTO.getProductID().equals(productID)) {
+                        productQuantityOrder = productQuantityOrder + productDTO.getProductQuantityOrder();
+                        if (productQuantityOrder > product.getProductQuantity()) {
+                            request.setAttribute("ERROR_DETAIL", "Product in stock is not enough. Max is: " + product.getProductQuantity());
+                        } else {
+                            product = productDTO;
+                            product.setProductQuantityOrder(productQuantityOrder);
+                            cart.update(product);
+                            session.setAttribute("CART", cart);
+                            url = SUCCESS;
+                        }
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    if (product.getProductQuantityOrder() > product.getProductQuantity()) {
+                        request.setAttribute("ERROR_DETAIL", "Product in stock is not enough. Max is: " + product.getProductQuantity());
+                    } else {
+                        cart.add(product);
+                        session.setAttribute("CART", cart);
+                        url = SUCCESS;
+                    }
+                }
             }
-
         } catch (Exception e) {
             log("Error at AddToCartController: " + e.toString());
         } finally {

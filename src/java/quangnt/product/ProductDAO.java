@@ -13,7 +13,7 @@ import quangnt.utils.DBUtil;
  * @author ACER
  */
 public class ProductDAO {
-    
+
     public List<ProductDTO> getAllProduct() throws SQLException {
         List<ProductDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -52,7 +52,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public List<ProductDTO> getAllActiveProduct() throws SQLException {
         List<ProductDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -93,7 +93,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public ProductDTO getProductByProductID(String productID) throws SQLException {
         ProductDTO product = null;
         Connection conn = null;
@@ -132,7 +132,38 @@ public class ProductDAO {
         }
         return product;
     }
-    
+
+    public int getProductQuantityByID(String productID) throws SQLException {
+        int productQuantity = 0;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtil.getConnection();
+            if (conn != null) {
+                String sql = "select productQuantity from tblProduct where productID=?";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, productID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    productQuantity = rs.getInt("productQuantity");
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return productQuantity;
+    }
+
     public boolean updateQuantity(String productID, int productQuantity) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -153,7 +184,7 @@ public class ProductDAO {
                 stm.setString(3, productID);
                 check = stm.executeUpdate() > 0;
             }
-            
+
         } catch (Exception e) {
         } finally {
             if (stm != null) {
@@ -165,7 +196,7 @@ public class ProductDAO {
         }
         return check;
     }
-    
+
     public boolean updateCategory(int categoryID, String categoryName) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -181,7 +212,7 @@ public class ProductDAO {
                 stm.setInt(2, categoryID);
                 check = stm.executeUpdate() > 0;
             }
-            
+
         } catch (Exception e) {
         } finally {
             if (stm != null) {
@@ -193,7 +224,7 @@ public class ProductDAO {
         }
         return check;
     }
-    
+
     public List<ProductDTO> searchProducts(String searchText) throws SQLException {
         List<ProductDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -233,7 +264,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public boolean addProduct(ProductDTO product) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -266,7 +297,7 @@ public class ProductDAO {
         }
         return check;
     }
-    
+
     public boolean addCategory(String categoryName) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -291,7 +322,7 @@ public class ProductDAO {
         }
         return check;
     }
-    
+
     public boolean disableProduct(String productID) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -315,7 +346,7 @@ public class ProductDAO {
         }
         return check;
     }
-    
+
     public boolean updateProduct(ProductDTO product) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -349,7 +380,7 @@ public class ProductDAO {
         }
         return check;
     }
-    
+
     public List<CategoryDTO> getCategories() throws SQLException {
         List<CategoryDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -381,7 +412,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public String getCategeoryName(int id) throws SQLException {
         String name = null;
         Connection conn = null;
@@ -412,7 +443,7 @@ public class ProductDAO {
         }
         return name;
     }
-    
+
     public int getCategeoryID(String name) throws SQLException {
         int id = 0;
         Connection conn = null;
@@ -443,7 +474,7 @@ public class ProductDAO {
         }
         return id;
     }
-    
+
     public String getStatusName(String id) throws SQLException {
         String name = null;
         Connection conn = null;
@@ -474,7 +505,7 @@ public class ProductDAO {
         }
         return name;
     }
-    
+
     public String getStatusID(String name) throws SQLException {
         String id = null;
         Connection conn = null;

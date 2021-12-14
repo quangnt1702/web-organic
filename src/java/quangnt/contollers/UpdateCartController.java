@@ -40,7 +40,10 @@ public class UpdateCartController extends HttpServlet {
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("CART");
             if (productQuantityOrder > product.getProductQuantity()) {
-                session.setAttribute("ERROR_CART", "Product in stock is not enough.");
+                session.setAttribute("ERROR_CART", "Product in stock is not enough. Max is: " + product.getProductQuantity());
+                product.setProductQuantityOrder(product.getProductQuantity());
+                cart.update(product);
+                session.setAttribute("CART", cart);
             } else if (cart != null) {
                 cart.update(product);
                 session.setAttribute("CART", cart);

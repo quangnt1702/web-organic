@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import quangnt.mail.SendHTMLEmail;
 import quangnt.order.OrderDAO;
 import quangnt.order.OrderDTO;
 import quangnt.order.OrderDetail;
@@ -88,6 +89,8 @@ public class PayResultController extends HttpServlet {
                             url = SUCCESS;
                             request.setAttribute("MESSAGE", "Payment success! Thanks for using our service!");
                             session.removeAttribute("CART");
+                            SendHTMLEmail email=new SendHTMLEmail();
+                            email.sendEmail(order, order.getEmail());
                         }
                     }
                 } else {

@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="quangnt.user.UserDTO"%>
-<%@page import="quangnt.user.UserDAO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -53,8 +52,7 @@
                         </thead>
                         <tbody>
                             <%
-                                UserDAO dao = new UserDAO();
-                                List<UserDTO> list = dao.getAllUsers();
+                                List<UserDTO> list = (List<UserDTO>)request.getAttribute("LIST_USER");
                                 int count = 0;
                                 if (list != null) {
                                     if (!list.isEmpty()) {

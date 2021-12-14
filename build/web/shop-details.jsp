@@ -3,7 +3,7 @@
     Created on : Nov 23, 2021, 9:50:35 PM
     Author     : ACER
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="quangnt.user.UserDTO"%>
 <%@page import="quangnt.shopping.Cart"%>
 <%@page import="quangnt.product.ProductDTO"%>
@@ -21,7 +21,10 @@
 
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
+        <!-- Magnific Popup CSS -->
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" href="https://unpkg.com/polipop/dist/css/polipop.core.min.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/polipop/dist/css/polipop.default.min.css"/>
         <!-- Css Styles -->
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
@@ -584,7 +587,28 @@
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/main.js"></script>
 
+        <!-- magnific-popup min js  --> 
+        <script src="assets/js/magnific-popup.min.js"></script> 
+        <script src="https://unpkg.com/polipop/dist/polipop.min.js"></script>
+        <script>
+                                        var polipop = new Polipop('mypolipop', {
+                                            layout: 'popups',
+                                            insert: 'before',
+                                            pool: 5,
+                                            sticky: false,
+                                            position: 'bottom-right',
+                                            life: 4000
+                                        });
 
+            <c:if test="${requestScope.ERROR_DETAIL != null}">
+                                        polipop.add({
+                                            content: "${requestScope.ERROR_DETAIL}",
+                                            title: 'Add To Cart Error',
+                                            type: 'error',
+                                        });
+            </c:if>
+            <c:remove var="ERROR_CART" scope="session" />
+        </script>
     </body>
 
 </html>

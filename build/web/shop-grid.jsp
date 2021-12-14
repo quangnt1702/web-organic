@@ -3,12 +3,11 @@
     Created on : Sep 2, 2021, 9:56:24 PM
     Author     : ACER
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="quangnt.user.UserDTO"%>
 <%@page import="quangnt.shopping.Cart"%>
 <%@page import="quangnt.product.ProductDTO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="quangnt.product.ProductDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!DOCTYPE html>
@@ -37,6 +36,9 @@
     </head>
 
     <body>
+        <c:if test="${requestScope.LIST_ACTIVE_PRODUCT == null}">
+            <c:redirect url="MainController?action=GetAllActiveProduct"></c:redirect>
+        </c:if>
         <!-- Page Preloder -->
         <div id="preloder">
             <div class="loader"></div>
@@ -570,8 +572,7 @@
                                                 </div>-->
                         <div class="filter__item">
                             <%
-                                ProductDAO productDAO = new ProductDAO();
-                                ArrayList<ProductDTO> list = (ArrayList<ProductDTO>) productDAO.getAllActiveProduct();
+                                ArrayList<ProductDTO> list = (ArrayList<ProductDTO>) request.getAttribute("LIST_ACTIVE_PRODUCT");
                             %>
                             <div class="row">
                                 <div class="col-lg-4 col-md-5">
@@ -626,10 +627,10 @@
                             %>
                         </div>
                         <div class="product-paging pagination">
-<!--                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>-->
+                            <!--                            <a href="#">1</a>
+                                                        <a href="#">2</a>
+                                                        <a href="#">3</a>
+                                                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>-->
                         </div>
                     </div>
                 </div>

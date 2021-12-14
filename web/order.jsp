@@ -4,9 +4,7 @@
     Author     : ACER
 --%>
 
-<%@page import="quangnt.order.OrderDetail"%>
 <%@page import="quangnt.order.OrderDTO"%>
-<%@page import="quangnt.order.OrderDAO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -57,8 +55,7 @@
                         </thead>
                         <tbody>
                             <%
-                                OrderDAO dao = new OrderDAO();
-                                List<OrderDTO> list = dao.getAllOrders();
+                                List<OrderDTO> list = (List<OrderDTO>) request.getAttribute("LIST_ORDER");
                                 int count = 0;
                                 if (list != null) {
                                     if (!list.isEmpty()) {
@@ -120,7 +117,7 @@
             </div>
         </div>-->
         <script src="./js/app-ad.js"></script>
-         <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
         <!-- JS tạo nút bấm di chuyển trang start -->
         <script src="http://1892.yn.lt/blogger/JQuery/Pagging/js/jquery.twbsPagination.js" type="text/javascript"></script>
         <!-- JS tạo nút bấm di chuyển trang end -->

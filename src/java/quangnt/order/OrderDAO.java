@@ -57,7 +57,7 @@ public class OrderDAO {
         try {
             conn = DBUtil.getConnection();
             if (conn != null) {
-                String sql = "select * from tblOrder ";
+                String sql = "select * from tblOrder order by orderDate desc";
                 stm = conn.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {

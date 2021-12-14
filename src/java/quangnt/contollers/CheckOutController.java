@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import quangnt.product.ProductDAO;
+import quangnt.product.ProductDTO;
+import quangnt.shopping.Cart;
 import quangnt.user.UserDTO;
 
 /**
@@ -21,7 +24,7 @@ import quangnt.user.UserDTO;
 @WebServlet(name = "CheckOutController", urlPatterns = {"/CheckOutController"})
 public class CheckOutController extends HttpServlet {
 
-    private static final String ERROR = "error.jsp";
+    private static final String ERROR = "shoping-cart.jsp";
     private static final String LOGIN = "login.html";
     private static final String SUCCESS = "checkout.jsp";
 
@@ -34,9 +37,20 @@ public class CheckOutController extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             UserDTO userLogin = (UserDTO) session.getAttribute("USER_LOGIN");
+            Cart cart = (Cart) session.getAttribute("CART");
+            ProductDAO productDAO = new ProductDAO();
             if (userLogin == null) {
                 url = LOGIN;
             } else {
+                for (ProductDTO product : cart.getCart().values()) {
+                    if (product.getProductQuantityOrder() > productDAO.getProductQuantityByID(product.getProductID())) {
+                        product.setProductQuantityOrder(productDAO.getProductQuantityByID(product.getProductID()));
+                        cart.update(product);
+                        session.setAttribute("CART", cart);
+                        session.setAttribute("ERROR_CART", "Product" + product.getProductName() + " in stock is not enough. Max is: " + productDAO.getProductQuantityByID(product.getProductID()));
+                        return;
+                    }
+                }
                 url = SUCCESS;
             }
         } catch (Exception e) {

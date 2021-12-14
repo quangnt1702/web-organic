@@ -78,6 +78,7 @@ public class PlaceOrderController extends HttpServlet {
                         }
                         if (checkInsert) {
                             url = SUCCESS;
+                            request.setAttribute("MESSAGE", "You have placed order suceess!");
                             session.removeAttribute("CART");
                         }
                     }
